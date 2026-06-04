@@ -178,6 +178,7 @@ def train_model(
     num_epochs = epochs
     best_val_loss = float("inf")
     best_epoch = 0
+    best_val_metrics = None
     epochs_without_improvement = 0
     best_state = None
     for epoch in range(1, num_epochs + 1):
@@ -200,6 +201,7 @@ def train_model(
         if val_loss < best_val_loss:
             best_val_loss = val_loss
             best_epoch = epoch
+            best_val_metrics = val_metrics
             best_state = {
                 key: value.detach().cpu().clone()
                 for key, value in model.state_dict().items()
@@ -227,16 +229,17 @@ def train_model(
             "hop_length": hop_length,
             "best_epoch": best_epoch,
             "validation_loss": best_val_loss,
+            "validation_metrics": best_val_metrics,
         },
         model_path,
     )
     logger.info(
         "Saved best model to %s (epoch %d, val loss %.4f). "
-        "Final validation metrics: %s",
+        "Best validation metrics: %s",
         model_path,
         best_epoch,
         best_val_loss,
-        val_metrics,
+        best_val_metrics,
     )
     return model_path
 
