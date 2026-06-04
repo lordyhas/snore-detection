@@ -1,3 +1,9 @@
+"""
+Snore Detection - audio loading and feature extraction helpers.
+
+Author: Hassan Kajila
+"""
+
 import os
 from typing import LiteralString
 
