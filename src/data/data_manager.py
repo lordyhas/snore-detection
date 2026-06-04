@@ -8,7 +8,7 @@ class AudioDataset(Dataset):
         waveforms,
         labels,
         sample_rate=16000,
-        duration=3.0,
+        duration=1.0,
         n_mels=128,
         n_fft=1024,
         hop_length=512,
