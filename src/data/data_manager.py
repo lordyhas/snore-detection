@@ -24,7 +24,11 @@ class AudioDataset(Dataset):
         self.to_db = torchaudio.transforms.AmplitudeToDB(stype="power")
         # SpecAugment, only applied on the training set
         self.freq_mask = torchaudio.transforms.FrequencyMasking(freq_mask_param=15)
-        self.time_mask = torchaudio.transforms.TimeMasking(time_mask_param=30)
+        # mask at most a fifth of the clip, so short clips are not blanked out
+        num_frames = self.num_samples // hop_length + 1
+        self.time_mask = torchaudio.transforms.TimeMasking(
+            time_mask_param=max(1, min(30, num_frames // 5))
+        )
 
     def __len__(self):
         return len(self.waveforms)
