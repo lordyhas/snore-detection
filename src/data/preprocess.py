@@ -51,7 +51,7 @@ def preprocess_data(
 ) -> str:
     """Split raw class folders and save fixed-length audio arrays for training."""
     sample_rate = 16000 if sample_rate is None else sample_rate
-    duration = 3.0 if duration is None else duration
+    duration = 1.0 if duration is None else duration
     validation_split = 0.2 if validation_split is None else validation_split
     if sample_rate <= 0 or duration <= 0:
         raise ValueError("sample_rate and duration must be positive.")
