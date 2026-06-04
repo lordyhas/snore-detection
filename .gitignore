@@ -1,0 +1,39 @@
+# Bytecode et caches
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Environnements virtuels
+.venv/
+venv/
+env/
+
+# Packaging / build
+build/
+dist/
+*.egg-info/
+.eggs/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Secrets et configuration locale
+.env
+*.local
+
+# IDE / système
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Tests / couverture
+.coverage
+htmlcov/
+
+# Logs
+*.log
+
+/data/
