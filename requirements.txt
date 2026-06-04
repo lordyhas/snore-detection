@@ -1,6 +1,10 @@
-numpy
-scikit-learn
-librosa
-matplotlib
-torch
-torchaudio
+numpy>=2.5
+scikit-learn>=1.9
+librosa>=1.0
+matplotlib>=3.11
+torch>=2.11
+torchaudio>=2.11
+
+# Notebooks
+jupyter
+tqdm>=4.70
