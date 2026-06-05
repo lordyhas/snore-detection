@@ -82,6 +82,22 @@ The main options are `--epochs`, `--batch-size`, `--learning-rate`, `--weight-de
 4. **Training** - AdamW with binary cross-entropy, learning rate reduced on plateau,
    early stopping on the validation loss. The weights of the best epoch are saved.
 
+## Results
+
+With the default settings, training stops after 24 epochs and keeps epoch 16:
+
+| Metric (validation, 200 clips) | Value |
+|--------------------------------|-------|
+| Loss                           | 0.023 |
+| Accuracy                       | 0.99  |
+| Precision                      | 1.00  |
+| Recall                         | 0.98  |
+| F1                             | 0.99  |
+
+These numbers come from the validation split, which is also used for early stopping;
+there is no separate test set yet. The one-second clips may be cut from the same
+recordings, so performance on new recordings is expected to be lower.
+
 -----------------------------------------------------------------------------------
 
 By Hassan K (lordyhas)
