@@ -41,10 +41,14 @@ class LogMelFrontend(nn.Module):
         )
         power = torch.view_as_real(stft).pow(2).sum(-1)  # (batch, n_freqs, frames)
         mel = torch.matmul(power.transpose(1, 2), self.fbanks).transpose(1, 2)
-        log_mel = torch.log(mel + 1e-6)
-        mean = log_mel.mean(dim=(1, 2), keepdim=True)
-        std = log_mel.std(dim=(1, 2), keepdim=True)
-        return ((log_mel - mean) / (std + 1e-5)).unsqueeze(1)  # (batch, 1, n_mels, frames)
+        # floor 50 dB under the loudest band of the clip: keeps the log stable where the
+        # signal is digital silence, whatever the recording level
+        peak = mel.flatten(1).max(dim=1).values.view(-1, 1, 1)
+        log_mel = torch.log(torch.clamp(mel + 1e-5 * peak, min=1e-10))
+        centered = log_mel - log_mel.mean(dim=(1, 2), keepdim=True)
+        # the 1e-4 keeps a silent (constant) clip at zero instead of amplifying rounding noise
+        std = (centered.pow(2).mean(dim=(1, 2), keepdim=True) + 1e-4).sqrt()
+        return (centered / std).unsqueeze(1)  # (batch, 1, n_mels, frames)
 
 
 class DepthwiseSeparableBlock(nn.Module):
