@@ -1,3 +1,9 @@
+"""
+Snore Detection - CNN classifier for mel spectrograms.
+
+Author: Hassan Kajila
+"""
+
 import torch
 import torch.nn as nn
 
