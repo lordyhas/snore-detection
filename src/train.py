@@ -1,3 +1,9 @@
+"""
+Snore Detection - training loop with early stopping.
+
+Author: Hassan Kajila
+"""
+
 import logging
 import os
 import random
