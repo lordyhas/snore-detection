@@ -1,3 +1,9 @@
+"""
+Snore Detection - raw audio preprocessing and train/validation split.
+
+Author: Hassan Kajila
+"""
+
 import os
 import tempfile
 
