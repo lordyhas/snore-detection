@@ -70,6 +70,18 @@ The main options are `--epochs`, `--batch-size`, `--learning-rate`, `--weight-de
 `--early-stopping-patience`, `--sample-rate`, `--duration`, `--n-mels`, `--n-fft` and
 `--hop-length`. The best checkpoint is saved to `models/audio_cnn.pth`.
 
+## Project workflow
+
+1. **Preprocessing** - each WAV file is resampled to 16 kHz mono, cropped or padded to
+   1 second, and the dataset is split 80/20 (stratified) into training and validation
+   sets saved in `data/processed/dataset.npz`.
+2. **Features** - clips are converted on the fly to 128-band mel spectrograms in dB.
+   Frequency and time masking (SpecAugment) are applied to the training set only.
+3. **Model** - four convolution blocks (32, 64, 128, 256 channels), global average
+   pooling and a small classifier producing one logit (about 1.2 M parameters).
+4. **Training** - AdamW with binary cross-entropy, learning rate reduced on plateau,
+   early stopping on the validation loss. The weights of the best epoch are saved.
+
 -----------------------------------------------------------------------------------
 
 By Hassan K (lordyhas)
