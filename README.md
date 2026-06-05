@@ -112,6 +112,14 @@ With the default settings, training stops after 24 epochs and keeps epoch 16:
 | Recall                         | 0.98  |
 | F1                             | 0.99  |
 
+The mobile models are 34 to 120 times smaller and take the raw waveform as input:
+
+| Model          | Parameters | Validation accuracy | ONNX size |
+|----------------|------------|---------------------|-----------|
+| `audio_cnn`    | 1 189 153  | 0.99                | -         |
+| `mobile_small` | 35 137     | 0.975               | 258 KB    |
+| `mobile_tiny`  | 9 889      | 0.98                | 161 KB    |
+
 These numbers come from the validation split, which is also used for early stopping;
 there is no separate test set yet. The one-second clips may be cut from the same
 recordings, so performance on new recordings is expected to be lower.
