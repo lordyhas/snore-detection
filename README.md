@@ -45,6 +45,31 @@ The audio files are not stored in this repository. Download them from Kaggle
 ([Dataset Link](https://www.kaggle.com/code/mpwolke/snoring-wav/input)) and place the
 `0/` and `1/` folders in `data/raw/`.
 
+## Installation
+
+```bash
+python -m venv .venv
+source .venv/bin/activate        # Windows: .venv\Scripts\activate
+pip install -r requirements.txt
+```
+
+## Usage
+
+Run the commands from the project root.
+
+```bash
+# Preprocess the raw audio, then train
+python -m src.main
+
+# Or run the two steps separately
+python -m src.data.preprocess
+python -m src.train --epochs 50 --batch-size 32
+```
+
+The main options are `--epochs`, `--batch-size`, `--learning-rate`, `--weight-decay`,
+`--early-stopping-patience`, `--sample-rate`, `--duration`, `--n-mels`, `--n-fft` and
+`--hop-length`. The best checkpoint is saved to `models/audio_cnn.pth`.
+
 -----------------------------------------------------------------------------------
 
 By Hassan K (lordyhas)
