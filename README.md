@@ -13,7 +13,7 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   │   └── 1/               # Snoring audio files
 │   ├── processed/           # dataset.npz (created by the preprocessing step)
 │   └── inference/           # Extra recordings to try the model on
-├── models/                  # Saved checkpoints (created by training, not versioned)
+├── models/                  # Exported ONNX models (checkpoints are not versioned)
 ├── docs/
 ├── notebooks/               # Data visualisation and scratch notebooks
 ├── src/
@@ -23,12 +23,15 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   ├── features/
 │   │   └── utils.py         # librosa helpers used by the notebooks
 │   ├── models/
-│   │   ├── audio_cnn.py     # The classifier
+│   │   ├── audio_cnn.py     # The reference classifier
+│   │   ├── mobile_cnn.py    # Lightweight waveform-in models for smartphones
+│   │   ├── registry.py      # Model names
 │   │   └── cnn_blocks.py    # Residual, dense and bottleneck blocks
 │   ├── config.py            # Paths and random seed
 │   ├── train.py             # Training loop
 │   ├── main.py              # Preprocess + train in one command
-│   └── inference.py         # To be implemented
+│   ├── export.py            # ONNX export of the mobile models
+│   └── inference.py         # Predictions on audio files
 ├── README.md
 └── requirements.txt
 ```
