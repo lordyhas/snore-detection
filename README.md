@@ -73,6 +73,21 @@ The main options are `--epochs`, `--batch-size`, `--learning-rate`, `--weight-de
 `--early-stopping-patience`, `--sample-rate`, `--duration`, `--n-mels`, `--n-fft` and
 `--hop-length`. The best checkpoint is saved to `models/audio_cnn.pth`.
 
+### Mobile models
+
+`--model` selects what is trained: `audio_cnn` (default), `mobile_small` or
+`mobile_tiny`. The two mobile models can be exported to ONNX and tried on any audio
+file:
+
+```bash
+python -m src.train --model mobile_tiny
+python -m src.export --model mobile_tiny
+python -m src.inference recording.wav --model mobile_tiny
+```
+
+The exported models are in `models/`; see [models/README.md](models/README.md) for
+their interface and how to call them from an Android app.
+
 ## Project workflow
 
 1. **Preprocessing** - each WAV file is resampled to 16 kHz mono, cropped or padded to
