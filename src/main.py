@@ -1,3 +1,9 @@
+"""
+Snore Detection - command line entry point (preprocess + train).
+
+Author: Hassan Kajila
+"""
+
 import argparse
 import logging
 
