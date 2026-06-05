@@ -1,3 +1,9 @@
+"""
+Snore Detection - PyTorch dataset producing mel spectrograms.
+
+Author: Hassan Kajila
+"""
+
 import torch
 import torchaudio
 from torch.utils.data import Dataset
