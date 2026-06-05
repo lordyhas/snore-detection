@@ -20,7 +20,7 @@ from src.config import (
     RANDOM_SEED,
 )
 from src.data.data_manager import AudioDataset
-from src.models.audio_cnn import AudioCNN
+from src.models.registry import MODELS, WAVEFORM_MODELS, build_model
 
 
 logger = logging.getLogger(__name__)
@@ -75,8 +75,9 @@ def train_model(
     n_mels: int | None = None,
     n_fft: int | None = None,
     hop_length: int | None = None,
+    model_name: str = "audio_cnn",
 ) -> str:
-    """Train the audio CNN and save the checkpoint with the best validation loss."""
+    """Train a model and save the checkpoint with the best validation loss."""
     if not os.path.isfile(PROCESSED_DATA_FILE):
         raise FileNotFoundError(
             f"Preprocessed data not found at {PROCESSED_DATA_FILE}; "
@@ -149,6 +150,7 @@ def train_model(
         n_fft=n_fft,
         hop_length=hop_length,
         train=True,
+        features=model_name not in WAVEFORM_MODELS,
     )
     val_dataset = AudioDataset(
         x_val,
@@ -159,6 +161,7 @@ def train_model(
         n_fft=n_fft,
         hop_length=hop_length,
         train=False,
+        features=model_name not in WAVEFORM_MODELS,
     )
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
     loader_options = {
@@ -172,7 +175,7 @@ def train_model(
     )
     val_loader = DataLoader(val_dataset, shuffle=False, **loader_options)
 
-    model = AudioCNN().to(device)
+    model = build_model(model_name).to(device)
     criterion = torch.nn.BCEWithLogitsLoss()
     optimizer = torch.optim.AdamW(
         model.parameters(), lr=learning_rate, weight_decay=weight_decay
@@ -223,11 +226,12 @@ def train_model(
         raise RuntimeError("Training finished without producing a valid checkpoint.")
 
     model.load_state_dict(best_state)
-    model_path = os.path.join(MODEL_DIR, "audio_cnn.pth")
+    model_path = os.path.join(MODEL_DIR, f"{model_name}.pth")
     os.makedirs(MODEL_DIR, exist_ok=True)
     torch.save(
         {
             "model_state_dict": best_state,
+            "model_name": model_name,
             "sample_rate": sample_rate,
             "duration": duration,
             "n_mels": n_mels,
@@ -264,5 +268,8 @@ if __name__ == "__main__":
     parser.add_argument("--n-mels", type=int, default=None)
     parser.add_argument("--n-fft", type=int, default=None)
     parser.add_argument("--hop-length", type=int, default=None)
+    parser.add_argument(
+        "--model", dest="model_name", choices=list(MODELS), default="audio_cnn"
+    )
     args = parser.parse_args()
     print(f"Trained model saved to {train_model(**vars(args))}")
