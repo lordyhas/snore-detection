@@ -8,6 +8,7 @@ import argparse
 import logging
 
 from src.data.preprocess import preprocess_data
+from src.models.registry import MODELS
 from src.train import train_model
 
 
@@ -30,6 +31,9 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--n-mels", type=int)
     parser.add_argument("--n-fft", type=int)
     parser.add_argument("--hop-length", type=int)
+    parser.add_argument(
+        "--model", dest="model_name", choices=list(MODELS), default="audio_cnn"
+    )
     return parser
 
 
@@ -61,6 +65,7 @@ def main(argv: list[str] | None = None) -> str:
         n_mels=args.n_mels,
         n_fft=args.n_fft,
         hop_length=args.hop_length,
+        model_name=args.model_name,
     )
     logger.info("Training completed; model saved to %s.", model_path)
     return model_path
