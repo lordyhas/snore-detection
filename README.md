@@ -98,6 +98,6 @@ These numbers come from the validation split, which is also used for early stopp
 there is no separate test set yet. The one-second clips may be cut from the same
 recordings, so performance on new recordings is expected to be lower.
 
------------------------------------------------------------------------------------
+---
 
-By Hassan K (lordyhas)
+By Hassan Kajila (lordyhas)
