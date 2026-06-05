@@ -1,11 +1,7 @@
-# -*- coding:utf-8 -*-
-
 """
-University of Sherbrooke
-Date:
-Authors: Mamadou Mountagha BAH & Pierre-Marc Jodoin
-License:
-Other: Suggestions are welcome
+Snore Detection - residual, dense and bottleneck CNN blocks.
+
+Author: Hassan Kajila
 """
 
 import torch
