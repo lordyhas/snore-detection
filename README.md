@@ -1,53 +1,50 @@
-This project is focused on detecting snoring sounds from audio recordings using machine learning techniques. The dataset includes labeled audio samples of snoring and non-snoring sounds, and the project involves preprocessing the audio data, extracting features, training a machine learning model, and evaluating its performance.
+# Snore Detection
 
-Project Structure
-The project is structured as follows:
+This project detects snoring sounds in audio recordings with a convolutional neural
+network. One-second clips labelled snoring / non-snoring are converted to mel
+spectrograms and classified by a small CNN written in PyTorch.
+
+## Project structure
 
 ```
-├── data/
-│   ├── raw/  
-│   │   ├── 0/ # Folder containing non snoring audio files
-│   │   └── 1/ Folder containing snoring audio files
-│   ├── inference/  
-│   ├── train/  # Training data (created by the script)
-│   │   ├── snoring/
-│   │   └── non-snoring/
-│   └── test/  # Testing data (created by the script)
-│       ├── snoring/
-│       └── non-snoring/
-├── models/  # Saved models
-├── docs 
+├── data/                    # Not versioned, see "Dataset"
+│   ├── raw/
+│   │   ├── 0/               # Non-snoring audio files
+│   │   └── 1/               # Snoring audio files
+│   ├── processed/           # dataset.npz (created by the preprocessing step)
+│   └── inference/           # Extra recordings to try the model on
+├── models/                  # Saved checkpoints (created by training, not versioned)
+├── docs/
+├── notebooks/               # Data visualisation and scratch notebooks
 ├── src/
-│   ├── data/ # Data preprocessing, augmention, etc
-│   ├── features/    # Feature extraction, transformations, etc 
-│   ├── models/ 
-│   ├── train.py  # Model training script
-│   ├── evaluate.py  # Model evaluation script
-│   └── config.py # Configuration settings
-├── README.md  # Project documentation
+│   ├── data/
+│   │   ├── preprocess.py    # Loading, fixed-length clips, train/validation split
+│   │   └── data_manager.py  # PyTorch dataset: mel spectrogram + SpecAugment
+│   ├── features/
+│   │   └── utils.py         # librosa helpers used by the notebooks
+│   ├── models/
+│   │   ├── audio_cnn.py     # The classifier
+│   │   └── cnn_blocks.py    # Residual, dense and bottleneck blocks
+│   ├── config.py            # Paths and random seed
+│   ├── train.py             # Training loop
+│   ├── main.py              # Preprocess + train in one command
+│   └── inference.py         # To be implemented
+├── README.md
 └── requirements.txt
 ```
 
-### Dataset
+## Dataset
 
+The dataset consists of two folders:
 
-In this project the dataset consists of two folders:
+- `data/raw/1/`: 500 snoring audio files, each 1 second long.
+- `data/raw/0/`: 500 non-snoring audio files, each 1 second long. These include
+  background sounds like a baby crying, a clock ticking, a door opening, etc.
 
-- `data/raw/1/`: Contains 500 snoring audio files, each 1 second long.
-- `data/raw/0/`: Contains 500 non-snoring audio files, each 1 second long. These include background sounds like baby crying, clock ticking, door opening, etc.
-Dataset Sources
-
-
-The snoring sounds were downloaded from the following online sources:
-
-- Download from Kaggle: [Dataset Link](https://www.kaggle.com/code/mpwolke/snoring-wav/input)
-
-### Project Workflow
-
-
+The audio files are not stored in this repository. Download them from Kaggle
+([Dataset Link](https://www.kaggle.com/code/mpwolke/snoring-wav/input)) and place the
+`0/` and `1/` folders in `data/raw/`.
 
 -----------------------------------------------------------------------------------
 
 By Hassan K (lordyhas)
-
-
