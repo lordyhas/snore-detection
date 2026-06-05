@@ -19,11 +19,14 @@ class AudioDataset(Dataset):
         n_fft=1024,
         hop_length=512,
         train=False,
+        features=True,
     ):
         self.waveforms = waveforms
         self.labels = labels
         self.num_samples = int(sample_rate * duration)
         self.train = train
+        # features=False returns the raw waveform, for models with a built-in front-end
+        self.features = features
         self.mel = torchaudio.transforms.MelSpectrogram(
             sample_rate=sample_rate, n_fft=n_fft, hop_length=hop_length, n_mels=n_mels
         )
@@ -51,9 +54,17 @@ class AudioDataset(Dataset):
         else:
             waveform = torch.nn.functional.pad(waveform, (0, self.num_samples - waveform.shape[1]))
 
+        label = torch.tensor(self.labels[idx], dtype=torch.float32)
+        if not self.features:
+            waveform = waveform.squeeze(0)  # (samples,)
+            if self.train:
+                # random circular shift: the sound can start anywhere in the window
+                shift = int(torch.randint(0, self.num_samples, (1,)))
+                waveform = torch.roll(waveform, shift)
+            return waveform, label
+
         spec = self.to_db(self.mel(waveform))  # (1, n_mels, frames)
         if self.train:
             spec = self.time_mask(self.freq_mask(spec))
 
-        label = torch.tensor(self.labels[idx], dtype=torch.float32)
         return spec, label
