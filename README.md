@@ -14,7 +14,7 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   ├── processed/           # dataset.npz (created by the preprocessing step)
 │   └── inference/           # Extra recordings to try the model on
 ├── models/                  # Exported ONNX models (checkpoints are not versioned)
-├── docs/
+├── docs/                    # Course on deep learning for audio with PyTorch
 ├── notebooks/               # Data visualisation and scratch notebooks
 ├── src/
 │   ├── data/
@@ -123,6 +123,13 @@ The mobile models are 34 to 120 times smaller and take the raw waveform as input
 These numbers come from the validation split, which is also used for early stopping;
 there is no separate test set yet. The one-second clips may be cut from the same
 recordings, so performance on new recordings is expected to be lower.
+
+## Documentation
+
+The [`docs/`](docs/README.md) folder is a 25-chapter course on deep learning for audio
+with PyTorch, written around this code: from sampling and spectrograms to
+convolutional networks, training, evaluation and deployment on a phone. Each chapter
+has theory, the matching code of the project, pitfalls and exercises.
 
 ---
 
