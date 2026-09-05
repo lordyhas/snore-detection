@@ -720,3 +720,16 @@ them when a problem calls for them.
 ### Further reading
 
 - PyTorch tutorial, "Optimizing Model Parameters" and "Save and Load the Model".
+
+## Key points
+
+- Binary cross-entropy on logits is the negative log-likelihood of the labels; its gradient with respect to the logit is simply $\sigma(z) - y$.
+- A loss of $\log 2 \approx 0.693$ means a binary classifier has learned nothing.
+- Backpropagation gives the gradient of all parameters for about the cost of two forward passes; in PyTorch, clear the gradients, call `backward`, then `step`.
+- The learning rate is the most important hyperparameter. AdamW with $\eta = 10^{-3}$ is a sound default.
+- Reduce the learning rate when progress stalls, stop when it does not resume, and keep a *copy* of the best weights.
+- Regularisation and augmentation encode what should not matter; an augmentation strong enough to erase the evidence teaches noise.
+
+---
+
+Previous: [Part II - Convolutional networks](02-convolutional-networks.md) | [Contents](README.md) | Next: [Part IV - Evaluation and scientific method](04-evaluation.md)
