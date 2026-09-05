@@ -1,5 +1,16 @@
 # Part VI - Practice
 
+The previous parts explain how things work. This one is about what to do when they do
+not, and what to do next: a systematic way to debug a model that trains badly, then
+a list of experiments, from an evening to a few weeks each, to deepen your
+understanding and improve the project.
+
+**Contents**
+
+- [6.1 Debugging neural networks](#61-debugging-neural-networks)
+- [6.2 Experiments to try](#62-experiments-to-try)
+- [Key points](#key-points)
+
 ## 6.1 Debugging neural networks
 
 ### Learning goals
