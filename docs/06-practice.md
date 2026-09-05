@@ -269,3 +269,15 @@ Experiment 2.1 first, because every later comparison needs a trustworthy measure
 experiments 2.4 and 4.1,
 which tell you what is actually wrong. Model changes (level 3) come last: they are the
 most enjoyable and usually the least useful until the data problem is addressed.
+
+## Key points
+
+- Neural networks fail silently; verify each component on its own before trusting the whole.
+- Three checks catch most bugs: look at the data, check the initial loss, overfit a single batch.
+- Test the invariances you expect, and be more suspicious of a result that is too good than of one that is too bad.
+- An experiment starts with a written hypothesis, changes one thing, and is repeated over several seeds.
+- Fix the measurement (a real test set, target-domain data) before changing the model.
+
+---
+
+Previous: [Part V - Deployment](05-deployment.md) | [Contents](README.md)
