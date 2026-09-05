@@ -1,5 +1,21 @@
 # Part II - Convolutional networks
 
+This part explains the building blocks of the two families of models in this
+repository, then reads the models themselves. It starts with the convolution and the
+layers that always accompany it, walks through `AudioCNN` parameter by parameter,
+and shows how the mobile models reach a similar accuracy with a hundred times fewer
+parameters. The last section covers skip connections, which the current models do
+not need but deeper ones would.
+
+**Contents**
+
+- [2.1 Convolution](#21-convolution)
+- [2.2 Normalisation, activation and pooling](#22-normalisation-activation-and-pooling)
+- [2.3 Walk-through of the audio CNN](#23-walk-through-of-the-audio-cnn)
+- [2.4 Depthwise separable convolutions](#24-depthwise-separable-convolutions)
+- [2.5 Residual and dense blocks](#25-residual-and-dense-blocks)
+- [Key points](#key-points)
+
 ## 2.1 Convolution
 
 ### Learning goals
