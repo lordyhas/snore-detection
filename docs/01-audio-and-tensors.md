@@ -1,5 +1,20 @@
 # Part I - From sound to tensors
 
+A neural network does not hear. It receives an array of numbers, and everything it
+can learn depends on how the sound was turned into that array. This part follows a
+one-second clip from the audio file to the batch of tensors that enters the model:
+sampling, the time-frequency representation, the perceptual scales that make it
+compact, and the PyTorch objects that carry it.
+
+**Contents**
+
+- [1.1 Digital audio](#11-digital-audio)
+- [1.2 Spectrograms](#12-spectrograms)
+- [1.3 Mel and log scales](#13-mel-and-log-scales)
+- [1.4 Tensors and shapes](#14-tensors-and-shapes)
+- [1.5 Datasets and data loaders](#15-datasets-and-data-loaders)
+- [Key points](#key-points)
+
 ## 1.1 Digital audio
 
 ### Learning goals
