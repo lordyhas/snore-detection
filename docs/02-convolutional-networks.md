@@ -532,3 +532,16 @@ relevant if you make the model much deeper, for example on a larger and harder d
 ### Further reading
 
 - He et al. (2016); Huang et al. (2017). See [References](references.md).
+
+## Key points
+
+- A convolution shares one small kernel across all positions: few parameters, and a pattern learned anywhere is recognised everywhere.
+- Parameters grow with $k^2 C_{in} C_{out}$, so the late, wide layers hold most of them, while the early layers do most of the computation.
+- Batch normalisation and dropout behave differently in training and in evaluation; `model.eval()` is not optional.
+- Global average pooling makes a network independent of the input size and adds no parameter.
+- Separating the spatial and channel roles of a convolution divides its cost by nearly $k^2$ for little loss in accuracy.
+- Skip connections solve an optimisation problem of deep networks; they are not needed at the depth used here.
+
+---
+
+Previous: [Part I - From sound to tensors](01-audio-and-tensors.md) | [Contents](README.md) | Next: [Part III - Training](03-training.md)
