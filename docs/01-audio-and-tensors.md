@@ -468,3 +468,16 @@ The seeded `generator` makes the shuffling order reproducible.
 ### Further reading
 
 - PyTorch tutorial, "Datasets & DataLoaders".
+
+## Key points
+
+- Audio is a vector of samples; the sampling rate bounds the frequencies it can hold (Nyquist) and must be the same in training and in use.
+- The STFT trades time resolution against frequency resolution through `n_fft` and `hop_length`; the number of frames is `1 + L // hop_length`.
+- The mel scale compresses the frequency axis and the logarithm compresses the dynamic range; both bring the input closer to what matters perceptually.
+- Per-clip normalisation of a log-spectrogram makes the model independent of the recording level.
+- Most runtime errors come from one of three tensor attributes: shape, dtype, device.
+- Deterministic, expensive work belongs in preprocessing; random work belongs in the dataset; whatever must ship with the model belongs in the model.
+
+---
+
+[Contents](README.md) | Next: [Part II - Convolutional networks](02-convolutional-networks.md)
