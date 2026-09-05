@@ -583,7 +583,7 @@ padding or cropping from a longer recording would be more faithful.
 
 ### Learning goals
 
-- Assemble the previous chapters into a complete training procedure.
+- Assemble the previous sections into a complete training procedure.
 - Know the role of every line of `src/train.py`.
 - Understand what a checkpoint contains and why.
 
