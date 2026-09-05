@@ -1,4 +1,4 @@
-# 25. References
+# References
 
 ## Textbooks
 
@@ -14,9 +14,9 @@
 - Müller, M. (2015). *Fundamentals of Music Processing*. Springer. An accessible
   treatment of the STFT and of audio features.
 
-## Papers, by chapter
+## Papers, by part
 
-### Audio features (chapters 1 to 3)
+### Audio features (part I)
 
 - Stevens, S., Volkmann, J. and Newman, E. (1937). A scale for the measurement of the
   psychological magnitude pitch. *Journal of the Acoustical Society of America*, 8(3).
@@ -24,7 +24,7 @@
   monosyllabic word recognition in continuously spoken sentences. *IEEE Transactions on
   Acoustics, Speech, and Signal Processing*, 28(4).
 
-### Architectures (chapters 6 to 10)
+### Architectures (part II)
 
 - LeCun, Y., Bottou, L., Bengio, Y. and Haffner, P. (1998). Gradient-based learning
   applied to document recognition. *Proceedings of the IEEE*, 86(11).
@@ -48,7 +48,7 @@
 - Zhang, Y., Suda, N., Lai, L. and Chandra, V. (2017). Hello Edge: keyword spotting on
   microcontrollers. arXiv:1711.07128.
 
-### Optimisation (chapters 11 to 14)
+### Optimisation (part III)
 
 - Rumelhart, D., Hinton, G. and Williams, R. (1986). Learning representations by
   back-propagating errors. *Nature*, 323.
@@ -59,7 +59,7 @@
 - Prechelt, L. (1998). Early stopping - but when? In *Neural Networks: Tricks of the
   Trade*. Springer.
 
-### Regularisation (chapter 15)
+### Regularisation (section 3.5)
 
 - Srivastava, N., Hinton, G., Krizhevsky, A., Sutskever, I. and Salakhutdinov, R.
   (2014). Dropout: a simple way to prevent neural networks from overfitting. *Journal of
@@ -69,7 +69,7 @@
 - Zhang, H., Cisse, M., Dauphin, Y. and Lopez-Paz, D. (2018). mixup: beyond empirical
   risk minimization. *ICLR*.
 
-### Evaluation and methodology (chapters 17 to 19)
+### Evaluation and methodology (part IV)
 
 - Fawcett, T. (2006). An introduction to ROC analysis. *Pattern Recognition Letters*,
   27(8).
@@ -80,14 +80,14 @@
 - Bouthillier, X. et al. (2021). Accounting for variance in machine learning benchmarks.
   *MLSys*.
 
-### Deployment (chapters 20 and 21)
+### Deployment (part V)
 
 - Jacob, B. et al. (2018). Quantization and training of neural networks for efficient
   integer-arithmetic-only inference. *CVPR*.
 - Hinton, G., Vinyals, O. and Dean, J. (2015). Distilling the knowledge in a neural
   network. arXiv:1503.02531.
 
-### Practice (chapter 22)
+### Practice (section 6.1)
 
 - Karpathy, A. (2019). A recipe for training neural networks. Blog post,
   karpathy.github.io.
@@ -107,3 +107,7 @@
 
 - Snoring dataset, 500 snoring and 500 non-snoring one-second clips, obtained from
   Kaggle (see the link in the main `README.md`).
+
+---
+
+[Contents](README.md)
