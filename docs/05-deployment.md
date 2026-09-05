@@ -273,3 +273,16 @@ See `models/README.md` for the exact interface and a Kotlin example.
 - Jacob et al. (2018), "Quantization and Training of Neural Networks for Efficient
   Integer-Arithmetic-Only Inference".
 - Hinton, Vinyals and Dean (2015), "Distilling the Knowledge in a Neural Network".
+
+## Key points
+
+- An exported model is a graph of standard operations with the weights inside; it is recorded from one run of the model in evaluation mode.
+- A successful export proves nothing. Compare the exported model with the original on real data and trained weights, and make sure the comparison can fail.
+- Tiny epsilons and logarithms of near-zero values amplify rounding differences between runtimes; prefer well-conditioned formulas.
+- Putting the preprocessing inside the model, and the expected format in the file's metadata, removes the most common class of deployment bugs.
+- On a stream, classify overlapping windows and post-process the decisions; a cheap detector can select what the network examines.
+- Make the model right on target data before making it smaller.
+
+---
+
+Previous: [Part IV - Evaluation and scientific method](04-evaluation.md) | [Contents](README.md) | Next: [Part VI - Practice](06-practice.md)
