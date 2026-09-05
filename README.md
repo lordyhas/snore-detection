@@ -126,10 +126,17 @@ recordings, so performance on new recordings is expected to be lower.
 
 ## Documentation
 
-The [`docs/`](docs/README.md) folder is a 25-chapter course on deep learning for audio
-with PyTorch, written around this code: from sampling and spectrograms to
-convolutional networks, training, evaluation and deployment on a phone. Each chapter
-has theory, the matching code of the project, pitfalls and exercises.
+The [`docs/`](docs/README.md) folder is a course on deep learning for audio with
+PyTorch, written around this code. It has six parts:
+
+1. [From sound to tensors](docs/01-audio-and-tensors.md)
+2. [Convolutional networks](docs/02-convolutional-networks.md)
+3. [Training](docs/03-training.md)
+4. [Evaluation and scientific method](docs/04-evaluation.md)
+5. [Deployment](docs/05-deployment.md)
+6. [Practice](docs/06-practice.md)
+
+Each section has theory, the matching code of the project, pitfalls and exercises.
 
 ---
 
