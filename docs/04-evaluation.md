@@ -348,3 +348,16 @@ and the tables say so.
 
 - PyTorch documentation, "Reproducibility".
 - Bouthillier et al., "Accounting for Variance in Machine Learning Benchmarks" (2021).
+
+## Key points
+
+- Accuracy is only meaningful on balanced data; precision and recall describe the two kinds of error separately, and the threshold trades one for the other.
+- A score measured on $n$ examples has a standard error of about $\sqrt{a(1-a)/n}$. On 200 clips, differences of one or two points are noise.
+- Any set used to make a decision becomes part of training. An unbiased estimate needs a test set used once.
+- Split by source (recording, person, night), not by clip, and evaluate on data from the conditions of use.
+- A network uses any feature that predicts the label, including accidents of how the dataset was made.
+- Seed every source of randomness, and report several runs rather than the best one.
+
+---
+
+Previous: [Part III - Training](03-training.md) | [Contents](README.md) | Next: [Part V - Deployment](05-deployment.md)
