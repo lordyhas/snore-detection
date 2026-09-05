@@ -1,12 +1,14 @@
 # Documentation
 
 A short course in deep learning for audio with PyTorch, built around the code of this
-repository. Each chapter introduces the theory, shows where it appears in the project,
-lists common pitfalls and ends with exercises.
+repository. It is organised in six parts. Each part is one document, opens with an
+introduction and a table of contents, and closes with its key points.
 
-The chapters are meant to be read with the source code open. Numbers quoted from
-training runs come from single runs on the project's dataset and are indications, not
-benchmarks.
+Inside a part, every section follows the same plan: learning goals, theory, where the
+idea appears in the project, common pitfalls, exercises and further reading.
+
+The course is meant to be read with the source code open. Numbers quoted from training
+runs come from single runs on the project's dataset and are indications, not benchmarks.
 
 ## Prerequisites
 
@@ -15,67 +17,93 @@ rule). No prior knowledge of signal processing or PyTorch is assumed.
 
 ## Contents
 
-### Part I - From sound to tensors
+### [Part I - From sound to tensors](01-audio-and-tensors.md)
 
-| #  | Chapter                                                    | Main code                    |
-|----|------------------------------------------------------------|------------------------------|
-| 1  | [Digital audio](01-digital-audio.md)                       | `src/data/preprocess.py`     |
-| 2  | [Spectrograms](02-spectrograms.md)                         | `src/models/mobile_cnn.py`   |
-| 3  | [Mel and log scales](03-mel-and-log-scales.md)             | `src/models/mobile_cnn.py`   |
-| 4  | [Tensors and shapes](04-tensors-and-shapes.md)             | whole pipeline               |
-| 5  | [Datasets and data loaders](05-datasets-and-dataloaders.md)| `src/data/data_manager.py`   |
+How a recording becomes the input of a network.
 
-### Part II - Convolutional networks
+| Section | Topic                                                                         | Main code                  |
+|---------|-------------------------------------------------------------------------------|----------------------------|
+| 1.1     | [Digital audio](01-audio-and-tensors.md#11-digital-audio)                     | `src/data/preprocess.py`   |
+| 1.2     | [Spectrograms](01-audio-and-tensors.md#12-spectrograms)                       | `src/models/mobile_cnn.py` |
+| 1.3     | [Mel and log scales](01-audio-and-tensors.md#13-mel-and-log-scales)           | `src/models/mobile_cnn.py` |
+| 1.4     | [Tensors and shapes](01-audio-and-tensors.md#14-tensors-and-shapes)           | whole pipeline             |
+| 1.5     | [Datasets and data loaders](01-audio-and-tensors.md#15-datasets-and-data-loaders) | `src/data/data_manager.py` |
 
-| #  | Chapter                                                    | Main code                    |
-|----|------------------------------------------------------------|------------------------------|
-| 6  | [Convolution](06-convolution.md)                           | `src/models/audio_cnn.py`    |
-| 7  | [Normalisation, activation and pooling](07-normalization-activation-pooling.md) | `src/models/audio_cnn.py` |
-| 8  | [Walk-through of the audio CNN](08-audio-cnn-walkthrough.md) | `src/models/audio_cnn.py`  |
-| 9  | [Depthwise separable convolutions](09-depthwise-separable-convolutions.md) | `src/models/mobile_cnn.py` |
-| 10 | [Residual and dense blocks](10-residual-and-dense-blocks.md) | `src/models/cnn_blocks.py` |
+### [Part II - Convolutional networks](02-convolutional-networks.md)
 
-### Part III - Training
+The layers, then the two families of models of the project.
 
-| #  | Chapter                                                    | Main code                    |
-|----|------------------------------------------------------------|------------------------------|
-| 11 | [Loss functions](11-loss-functions.md)                     | `src/train.py`               |
-| 12 | [Autograd and backpropagation](12-autograd-and-backpropagation.md) | `src/train.py`       |
-| 13 | [Optimisers](13-optimizers.md)                             | `src/train.py`               |
-| 14 | [Learning rate schedules and early stopping](14-learning-rate-and-early-stopping.md) | `src/train.py` |
-| 15 | [Regularisation and augmentation](15-regularization-and-augmentation.md) | `src/data/data_manager.py` |
-| 16 | [Anatomy of the training loop](16-training-loop.md)        | `src/train.py`               |
+| Section | Topic                                                                         | Main code                  |
+|---------|-------------------------------------------------------------------------------|----------------------------|
+| 2.1     | [Convolution](02-convolutional-networks.md#21-convolution)                    | `src/models/audio_cnn.py`  |
+| 2.2     | [Normalisation, activation and pooling](02-convolutional-networks.md#22-normalisation-activation-and-pooling) | `src/models/audio_cnn.py` |
+| 2.3     | [Walk-through of the audio CNN](02-convolutional-networks.md#23-walk-through-of-the-audio-cnn) | `src/models/audio_cnn.py` |
+| 2.4     | [Depthwise separable convolutions](02-convolutional-networks.md#24-depthwise-separable-convolutions) | `src/models/mobile_cnn.py` |
+| 2.5     | [Residual and dense blocks](02-convolutional-networks.md#25-residual-and-dense-blocks) | `src/models/cnn_blocks.py` |
 
-### Part IV - Evaluation and scientific method
+### [Part III - Training](03-training.md)
 
-| #  | Chapter                                                    | Main code                    |
-|----|------------------------------------------------------------|------------------------------|
-| 17 | [Evaluation metrics](17-evaluation-metrics.md)             | `src/train.py`               |
-| 18 | [Generalisation and data leakage](18-generalization-and-data-leakage.md) | `src/data/preprocess.py` |
-| 19 | [Reproducibility](19-reproducibility.md)                   | `src/train.py`, `src/config.py` |
+What is minimised, how, and how to keep the model from memorising.
 
-### Part V - Deployment
+| Section | Topic                                                                         | Main code                  |
+|---------|-------------------------------------------------------------------------------|----------------------------|
+| 3.1     | [Loss functions](03-training.md#31-loss-functions)                            | `src/train.py`             |
+| 3.2     | [Autograd and backpropagation](03-training.md#32-autograd-and-backpropagation)| `src/train.py`             |
+| 3.3     | [Optimisers](03-training.md#33-optimisers)                                    | `src/train.py`             |
+| 3.4     | [Learning rate schedules and early stopping](03-training.md#34-learning-rate-schedules-and-early-stopping) | `src/train.py` |
+| 3.5     | [Regularisation and augmentation](03-training.md#35-regularisation-and-augmentation) | `src/data/data_manager.py` |
+| 3.6     | [Anatomy of the training loop](03-training.md#36-anatomy-of-the-training-loop)| `src/train.py`             |
 
-| #  | Chapter                                                    | Main code                    |
-|----|------------------------------------------------------------|------------------------------|
-| 20 | [Exporting to ONNX](20-exporting-to-onnx.md)               | `src/export.py`              |
-| 21 | [On-device inference](21-on-device-inference.md)           | `src/inference.py`           |
+### [Part IV - Evaluation and scientific method](04-evaluation.md)
 
-### Part VI - Going further
+What a score means and how far to trust it.
 
-| #  | Chapter                                                    |
-|----|------------------------------------------------------------|
-| 22 | [Debugging neural networks](22-debugging-neural-networks.md) |
-| 23 | [Experiments to try](23-experiments.md)                    |
-| 24 | [Glossary](24-glossary.md)                                 |
-| 25 | [References](25-references.md)                             |
+| Section | Topic                                                                         | Main code                  |
+|---------|-------------------------------------------------------------------------------|----------------------------|
+| 4.1     | [Evaluation metrics](04-evaluation.md#41-evaluation-metrics)                  | `src/train.py`             |
+| 4.2     | [Generalisation and data leakage](04-evaluation.md#42-generalisation-and-data-leakage) | `src/data/preprocess.py` |
+| 4.3     | [Reproducibility](04-evaluation.md#43-reproducibility)                        | `src/train.py`, `src/config.py` |
+
+### [Part V - Deployment](05-deployment.md)
+
+From a PyTorch model to a file that runs on a phone.
+
+| Section | Topic                                                                         | Main code                  |
+|---------|-------------------------------------------------------------------------------|----------------------------|
+| 5.1     | [Exporting to ONNX](05-deployment.md#51-exporting-to-onnx)                    | `src/export.py`            |
+| 5.2     | [On-device inference](05-deployment.md#52-on-device-inference)                | `src/inference.py`         |
+
+### [Part VI - Practice](06-practice.md)
+
+What to do when it does not work, and what to try next.
+
+| Section | Topic                                                                         |
+|---------|-------------------------------------------------------------------------------|
+| 6.1     | [Debugging neural networks](06-practice.md#61-debugging-neural-networks)      |
+| 6.2     | [Experiments to try](06-practice.md#62-experiments-to-try)                    |
+
+### Reference
+
+- [Glossary](glossary.md): every term, with the section that explains it.
+- [References](references.md): textbooks, papers grouped by part, software
+  documentation.
 
 ## Suggested paths
 
-- **New to deep learning**: read in order, and do at least one exercise per chapter.
-- **Know the theory, new to PyTorch**: chapters 4, 5, 12 and 16, then 22.
-- **Interested in the mobile models**: chapters 2, 3, 9, 20 and 21.
-- **Want to improve the project**: chapters 17 and 18, then 23.
+- **New to deep learning**: read the parts in order, and do at least one exercise per
+  section.
+- **Know the theory, new to PyTorch**: sections 1.4, 1.5, 3.2 and 3.6, then 6.1.
+- **Interested in the mobile models**: sections 1.2, 1.3 and 2.4, then part V.
+- **Want to improve the project**: part IV, then section 6.2.
+
+## How to study
+
+1. Read a section with the matching source file open.
+2. Before running an exercise, write down what you expect. The gap between the
+   prediction and the result is where the learning happens.
+3. At the end of a part, reread its key points and check that you could explain each
+   one without the text.
+4. Keep a log of your experiments, as described in section 6.2.
 
 ## Conventions
 
