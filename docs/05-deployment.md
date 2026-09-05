@@ -1,5 +1,16 @@
 # Part V - Deployment
 
+A trained model is a research result. A model that runs on a phone all night is a
+product. This part covers the step between the two: turning the PyTorch model into a
+portable file, checking that the file computes the same thing, and running it on a
+continuous audio stream under the constraints of a mobile device.
+
+**Contents**
+
+- [5.1 Exporting to ONNX](#51-exporting-to-onnx)
+- [5.2 On-device inference](#52-on-device-inference)
+- [Key points](#key-points)
+
 ## 5.1 Exporting to ONNX
 
 ### Learning goals
