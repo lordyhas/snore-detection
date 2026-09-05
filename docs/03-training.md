@@ -1,5 +1,21 @@
 # Part III - Training
 
+A model is a function with adjustable parameters; training is the search for good
+values. This part builds that search piece by piece: what is minimised, how its
+gradient is obtained, how the parameters are moved, when to slow down and when to
+stop, and how to keep the model from memorising. The last section puts the pieces
+back together by reading `src/train.py` from top to bottom.
+
+**Contents**
+
+- [3.1 Loss functions](#31-loss-functions)
+- [3.2 Autograd and backpropagation](#32-autograd-and-backpropagation)
+- [3.3 Optimisers](#33-optimisers)
+- [3.4 Learning rate schedules and early stopping](#34-learning-rate-schedules-and-early-stopping)
+- [3.5 Regularisation and augmentation](#35-regularisation-and-augmentation)
+- [3.6 Anatomy of the training loop](#36-anatomy-of-the-training-loop)
+- [Key points](#key-points)
+
 ## 3.1 Loss functions
 
 ### Learning goals
