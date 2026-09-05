@@ -1,5 +1,17 @@
 # Part IV - Evaluation and scientific method
 
+Training produces a number, such as "99 % accuracy". This part is about what that
+number means and how far it can be trusted. It is the least technical part and the
+one that matters most in practice: most disappointing machine learning projects fail
+here, with a correct model evaluated the wrong way.
+
+**Contents**
+
+- [4.1 Evaluation metrics](#41-evaluation-metrics)
+- [4.2 Generalisation and data leakage](#42-generalisation-and-data-leakage)
+- [4.3 Reproducibility](#43-reproducibility)
+- [Key points](#key-points)
+
 ## 4.1 Evaluation metrics
 
 ### Learning goals
