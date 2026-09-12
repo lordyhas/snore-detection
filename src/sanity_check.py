@@ -226,6 +226,24 @@ def check_eval_mode(model_name, inputs, targets, tolerance=1e-4) -> CheckResult:
     )
 
 
+def check_gain_invariance(model_name, inputs, targets, tolerance=1e-3) -> CheckResult:
+    """Waveform models: the recording level does not change the prediction."""
+    model = build_model(model_name).eval()
+    with torch.no_grad():
+        # compared on the features, of order 1, rather than on the logits: an untrained
+        # model barely reacts to its input and would hide a real difference
+        reference = model.frontend(inputs)
+        quiet = model.frontend(inputs * 0.01)
+        logits = float((model(inputs) - model(inputs * 0.01)).abs().max())
+    features = float((reference - quiet).abs().max())
+    return CheckResult(
+        "gain invariance",
+        features <= tolerance and logits <= tolerance,
+        f"clip at 1 % of its level: features differ by {features:.1e}, "
+        f"logits by {logits:.1e}",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
@@ -234,7 +252,9 @@ COMMON_CHECKS = [
     check_overfit,
     check_eval_mode,
 ]
-WAVEFORM_CHECKS = []
+WAVEFORM_CHECKS = [
+    check_gain_invariance,
+]
 
 
 def run_checks(model_name: str, batch_size: int = 16) -> list[CheckResult]:
