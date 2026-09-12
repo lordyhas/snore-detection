@@ -183,8 +183,12 @@ layer without modifying the model.
    the number of steps needed to reach 100 % accuracy.
 3. Introduce one of the silent bugs above on purpose (for example, shuffle the labels)
    and observe the training curves.
-4. Write the four invariance checks as automated tests with `pytest`.
-5. Sort the validation clips by the confidence of `mobile_small` in its wrong answers
+4. Add a check to `src/sanity_check.py`: a clip shifted in time by a few milliseconds
+   should give nearly the same prediction. Then add to `tests/test_sanity_check.py` a
+   broken model that your check catches.
+5. In `check_numerical_gradient`, remove the perturbation of the weights and run the
+   checks again. Which models fail, and on which kind of parameter?
+6. Sort the validation clips by the confidence of `mobile_small` in its wrong answers
    and listen to the top five.
 
 ### Further reading
