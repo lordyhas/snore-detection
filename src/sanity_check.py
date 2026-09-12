@@ -111,9 +111,28 @@ def check_initial_loss(model_name, inputs, targets, tolerance=0.1) -> CheckResul
     )
 
 
+def check_gradient_flow(model_name, inputs, targets) -> CheckResult:
+    """After one backward pass, every parameter has a finite, non-zero gradient."""
+    model = build_model(model_name).train()
+    _loss(model, inputs, targets).backward()
+    norms = {
+        name: float(parameter.grad.norm()) if parameter.grad is not None else float("nan")
+        for name, parameter in model.named_parameters()
+    }
+    broken = [name for name, norm in norms.items() if not norm > 0 or math.isinf(norm)]
+    detail = (
+        f"{len(norms)} tensors, gradient norms from "
+        f"{min(norms.values()):.2e} to {max(norms.values()):.2e}"
+    )
+    if broken:
+        detail = f"no usable gradient for: {', '.join(broken[:3])}"
+    return CheckResult("gradient flow", not broken, detail)
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
+    check_gradient_flow,
 ]
 WAVEFORM_CHECKS = []
 
