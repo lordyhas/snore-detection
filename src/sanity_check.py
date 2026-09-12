@@ -244,6 +244,25 @@ def check_gain_invariance(model_name, inputs, targets, tolerance=1e-3) -> CheckR
     )
 
 
+def check_silence(model_name, inputs, targets) -> CheckResult:
+    """Waveform models: digital silence gives a finite output and finite gradients."""
+    model = build_model(model_name).train()
+    silence = torch.zeros_like(inputs)
+    loss = _loss(model, silence, targets)
+    loss.backward()
+    finite = bool(torch.isfinite(loss)) and all(
+        bool(torch.isfinite(parameter.grad).all())
+        for parameter in model.parameters()
+        if parameter.grad is not None
+    )
+    return CheckResult(
+        "silence",
+        finite,
+        f"loss {loss.item():.4f} on all-zero clips, gradients "
+        f"{'finite' if finite else 'not finite'}",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
@@ -254,6 +273,7 @@ COMMON_CHECKS = [
 ]
 WAVEFORM_CHECKS = [
     check_gain_invariance,
+    check_silence,
 ]
 
 
