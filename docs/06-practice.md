@@ -78,6 +78,32 @@ the mobile models:
 The last three failed at first, and each failure exposed a real defect
 ([section 5.1](05-deployment.md#51-exporting-to-onnx)).
 
+### Automated sanity checks
+
+Steps 2, 3 and 6 of the procedure do not need a full training, so they can be run in a
+few seconds on every model. This is what `src/sanity_check.py` does:
+
+```bash
+python -m src.sanity_check
+```
+
+Each check tests one hypothesis about a model built by `build_model`. A hypothesis that
+does not hold points to a specific kind of bug.
+
+| Check               | Hypothesis                                         | If it fails, suspect                         |
+|---------------------|----------------------------------------------------|----------------------------------------------|
+| output shape        | one finite logit per example, for any input length | a layer tied to a fixed size, a `NaN`        |
+| initial loss        | untrained loss close to $\log 2$                   | the initialisation or the scale of the output |
+| gradient flow       | every parameter gets a non-zero gradient           | a `detach`, a frozen or unused layer         |
+| numerical gradient  | backpropagation matches finite differences         | a non-differentiable or hand-written operation |
+| overfit small batch | 16 examples can be memorised                       | the model, the loss or the optimisation      |
+| eval mode           | deterministic, independent of the batch            | a layer that ignores `model.eval()`          |
+| gain invariance     | waveform models ignore the recording level         | the normalisation of the front-end           |
+| silence             | all-zero audio gives finite loss and gradients     | a logarithm or a division without floor      |
+
+The first six apply to every model; the last two only to the models that take a raw
+waveform, since they test the spectrogram computed inside the model.
+
 ### Bugs that do not raise errors
 
 - **Forgetting `model.eval()`.** Predictions vary with the batch; dropout stays active.
