@@ -90,6 +90,32 @@ python -m src.inference recording.wav --model mobile_tiny
 The exported models are in `models/`; see [models/README.md](models/README.md) for
 their interface and how to call them from an Android app.
 
+### Sanity checks
+
+Before a long training, or after changing a model, run:
+
+```bash
+python -m src.sanity_check                  # every model
+python -m src.sanity_check --model mobile_tiny
+```
+
+Each model must pass a series of checks, in a few seconds and without training:
+
+| Check               | Hypothesis tested                                          |
+|---------------------|------------------------------------------------------------|
+| output shape        | one finite logit per example, for any input length         |
+| initial loss        | an untrained model is undecided: loss close to log(2)      |
+| gradient flow       | every parameter receives a finite, non-zero gradient       |
+| numerical gradient  | backpropagation agrees with finite differences             |
+| overfit small batch | the model can memorise 16 examples                         |
+| eval mode           | predictions are deterministic and independent of the batch |
+| gain invariance     | waveform models: the recording level does not matter       |
+| silence             | waveform models: all-zero audio gives finite values        |
+
+The command exits with an error if a check fails. A model added to
+`src/models/registry.py` is checked automatically. The checks themselves are tested
+against models broken on purpose: `python -m pytest`.
+
 ## Project workflow
 
 1. **Preprocessing** - each WAV file is resampled to 16 kHz mono, cropped or padded to
