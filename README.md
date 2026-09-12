@@ -15,7 +15,7 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   └── inference/           # Extra recordings to try the model on
 ├── models/                  # Exported ONNX models (checkpoints are not versioned)
 ├── docs/                    # Course on deep learning for audio with PyTorch
-├── notebooks/               # Data visualisation and scratch notebooks
+├── notebooks/               # Data visualisation notebook
 ├── src/
 │   ├── data/
 │   │   ├── preprocess.py    # Loading, fixed-length clips, train/validation split
