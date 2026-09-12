@@ -174,11 +174,40 @@ def check_numerical_gradient(
     )
 
 
+def check_overfit(model_name, inputs, targets, max_steps=300, device=None) -> CheckResult:
+    """The model can memorise a handful of examples: 100 % accuracy on them."""
+    device = device or torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    model = build_model(model_name).to(device)
+    inputs, targets = inputs.to(device), targets.to(device)
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    accuracy, loss, step = 0.0, float("nan"), 0
+    for step in range(1, max_steps + 1):
+        model.train()
+        optimizer.zero_grad(set_to_none=True)
+        _loss(model, inputs, targets).backward()
+        optimizer.step()
+        if step % 10 == 0:
+            model.eval()
+            with torch.no_grad():
+                logits = model(inputs)
+                loss = float(torch.nn.functional.binary_cross_entropy_with_logits(logits, targets))
+                accuracy = float(((logits >= 0) == (targets >= 0.5)).float().mean())
+            if accuracy == 1.0 and loss < 0.1:
+                break
+    return CheckResult(
+        "overfit small batch",
+        accuracy == 1.0 and loss < 0.1,
+        f"accuracy {accuracy:.2f}, loss {loss:.4f} on {inputs.size(0)} examples "
+        f"after {step} steps",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
     check_gradient_flow,
     check_numerical_gradient,
+    check_overfit,
 ]
 WAVEFORM_CHECKS = []
 
