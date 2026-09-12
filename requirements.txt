@@ -10,6 +10,9 @@ onnx>=1.23
 onnxruntime>=1.31
 onnxscript>=0.7
 
+# Tests
+pytest>=9.2
+
 # Notebooks
 jupyter
 tqdm>=4.70
