@@ -129,10 +129,56 @@ def check_gradient_flow(model_name, inputs, targets) -> CheckResult:
     return CheckResult("gradient flow", not broken, detail)
 
 
+def check_numerical_gradient(
+    model_name, inputs, targets, samples=20, steps=(1e-5, 1e-6, 1e-7), tolerance=1e-4
+) -> CheckResult:
+    """Backpropagation agrees with finite differences on randomly chosen weights."""
+    # double precision: in float32 the finite difference is dominated by rounding
+    model = build_model(model_name).double().eval()
+    inputs, targets = inputs[:4].double(), targets[:4].double()
+    with torch.no_grad():
+        # move away from the initialisation: with biases at exactly zero, many
+        # activations sit exactly on the kink of the ReLU, where the derivative used by
+        # backpropagation and the slope measured by a finite difference differ
+        for parameter in model.parameters():
+            parameter.add_(0.05 * torch.randn_like(parameter))
+    _loss(model, inputs, targets).backward()
+
+    generator = torch.Generator().manual_seed(RANDOM_SEED)
+    parameters = list(model.parameters())
+    worst = 0.0
+    with torch.no_grad():
+        for _ in range(samples):
+            parameter = parameters[int(torch.randint(len(parameters), (1,), generator=generator))]
+            flat, gradient = parameter.view(-1), parameter.grad.view(-1)
+            index = int(torch.randint(flat.numel(), (1,), generator=generator))
+            original, analytical = float(flat[index]), float(gradient[index])
+            errors = []
+            for step in steps:
+                flat[index] = original + step
+                loss_plus = float(_loss(model, inputs, targets))
+                flat[index] = original - step
+                loss_minus = float(_loss(model, inputs, targets))
+                flat[index] = original
+                numerical = (loss_plus - loss_minus) / (2 * step)
+                errors.append(
+                    abs(numerical - analytical) / max(1e-6, abs(numerical) + abs(analytical))
+                )
+            # a large step may cross a ReLU kink and a small one suffers from rounding:
+            # each spoils only some step sizes, whereas a wrong gradient is wrong for all
+            worst = max(worst, min(errors))
+    return CheckResult(
+        "numerical gradient",
+        worst <= tolerance,
+        f"max relative error {worst:.2e} on {samples} weights (limit {tolerance:.0e})",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
     check_gradient_flow,
+    check_numerical_gradient,
 ]
 WAVEFORM_CHECKS = []
 
