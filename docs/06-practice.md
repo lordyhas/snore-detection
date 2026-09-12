@@ -104,6 +104,31 @@ does not hold points to a specific kind of bug.
 The first six apply to every model; the last two only to the models that take a raw
 waveform, since they test the spectrogram computed inside the model.
 
+#### The gradient check
+
+The numerical gradient check compares the derivative given by backpropagation with a
+centred finite difference, for a few weights picked at random:
+
+$$\frac{\partial \mathcal{L}}{\partial \theta_i} \approx
+  \frac{\mathcal{L}(\theta_i + h) - \mathcal{L}(\theta_i - h)}{2h},
+  \qquad
+  \text{relative error} = \frac{|g_{num} - g_{ana}|}{|g_{num}| + |g_{ana}|} .$$
+
+PyTorch's autograd is reliable, so in practice this check validates *your* code: a custom
+operation, or a front-end such as `LogMelFrontend`. Writing it for this project brought
+out three classical difficulties, worth knowing whenever you compare gradients:
+
+- **Precision.** In `float32` the difference of two nearly equal losses is mostly
+  rounding. The check converts the model to `float64`.
+- **Kinks.** ReLU is not differentiable at 0. Backpropagation uses the derivative 0
+  there, while a centred difference measures the average of the two slopes, 0.5. At
+  initialisation the biases are exactly zero and many activations sit exactly on the
+  kink: the first version of the check reported errors of 30 % to 100 % on perfectly
+  correct models. The check now perturbs the weights slightly before measuring.
+- **Step size.** A large $h$ may step across a kink; a small $h$ amplifies rounding. The
+  check tries three values of $h$ and keeps the best agreement for each weight. A
+  gradient that is really wrong disagrees for every step size.
+
 ### Bugs that do not raise errors
 
 - **Forgetting `model.eval()`.** Predictions vary with the batch; dropout stays active.
