@@ -31,7 +31,9 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   ├── train.py             # Training loop
 │   ├── main.py              # Preprocess + train in one command
 │   ├── export.py            # ONNX export of the mobile models
-│   └── inference.py         # Predictions on audio files
+│   ├── inference.py         # Predictions on audio files
+│   └── sanity_check.py      # Checks to run before trusting a training
+├── tests/                   # Tests of the sanity checks
 ├── README.md
 └── requirements.txt
 ```
