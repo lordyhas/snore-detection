@@ -129,6 +129,18 @@ out three classical difficulties, worth knowing whenever you compare gradients:
   check tries three values of $h$ and keeps the best agreement for each weight. A
   gradient that is really wrong disagrees for every step size.
 
+#### Checking the checks
+
+A check that always passes is worthless. `tests/test_sanity_check.py` therefore builds
+models broken on purpose (features detached from the graph, `eval()` without effect, an
+operation with a wrong backward pass, a badly scaled output layer, frozen weights, the
+first version of the front-end) and verifies that the right check fails for each, and
+that the real models pass.
+
+The checks do not prove that a model is good. They test the plumbing, not the data:
+nothing here can detect leakage or a dataset that does not represent the real use
+([section 4.2](04-evaluation.md#42-generalisation-and-data-leakage)).
+
 ### Bugs that do not raise errors
 
 - **Forgetting `model.eval()`.** Predictions vary with the batch; dropout stays active.
