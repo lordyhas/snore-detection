@@ -202,12 +202,37 @@ def check_overfit(model_name, inputs, targets, max_steps=300, device=None) -> Ch
     )
 
 
+def check_eval_mode(model_name, inputs, targets, tolerance=1e-4) -> CheckResult:
+    """In eval mode a prediction is deterministic and independent of the batch."""
+    # a model that went through a few training steps: batch statistics differ from the
+    # running ones, so a layer left in training mode would show
+    model = build_model(model_name).train()
+    optimizer = torch.optim.Adam(model.parameters(), lr=1e-3)
+    for _ in range(5):
+        optimizer.zero_grad(set_to_none=True)
+        _loss(model, inputs, targets).backward()
+        optimizer.step()
+    model.eval()
+    with torch.no_grad():
+        first = model(inputs)
+        second = model(inputs)
+        alone = torch.cat([model(inputs[i:i + 1]) for i in range(inputs.size(0))])
+    repeat = float((first - second).abs().max())
+    batch = float((first - alone).abs().max())
+    return CheckResult(
+        "eval mode",
+        repeat == 0.0 and batch <= tolerance,
+        f"same input twice: difference {repeat:.1e}; alone versus in a batch: {batch:.1e}",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
     check_initial_loss,
     check_gradient_flow,
     check_numerical_gradient,
     check_overfit,
+    check_eval_mode,
 ]
 WAVEFORM_CHECKS = []
 
