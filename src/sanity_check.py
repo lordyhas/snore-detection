@@ -95,8 +95,25 @@ def check_output(model_name, inputs, targets) -> CheckResult:
     )
 
 
+def check_initial_loss(model_name, inputs, targets, tolerance=0.1) -> CheckResult:
+    """An untrained binary classifier should be undecided: loss close to log(2)."""
+    losses = []
+    for seed in range(5):
+        torch.manual_seed(RANDOM_SEED + seed)
+        model = build_model(model_name).eval()
+        with torch.no_grad():
+            losses.append(float(_loss(model, inputs, targets)))
+    loss = sum(losses) / len(losses)
+    return CheckResult(
+        "initial loss",
+        abs(loss - math.log(2)) <= tolerance,
+        f"{loss:.4f} over 5 initialisations (expected {math.log(2):.4f} +/- {tolerance})",
+    )
+
+
 COMMON_CHECKS = [
     check_output,
+    check_initial_loss,
 ]
 WAVEFORM_CHECKS = []
 
