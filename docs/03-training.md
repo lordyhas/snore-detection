@@ -708,7 +708,7 @@ them when a problem calls for them.
 
 ### Exercises
 
-1. Draw the call graph of `python -m src.main`: which function calls which, in which
+1. Draw the call graph of `python main.py`: which function calls which, in which
    file.
 2. Add the training accuracy to the log line of each epoch.
 3. Add a second evaluation of the training set in `eval()` mode and compare its loss
