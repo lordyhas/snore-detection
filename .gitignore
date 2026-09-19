@@ -40,3 +40,6 @@ htmlcov/
 
 # Model checkpoints
 models/*.pth
+
+# Models downloaded from Modal
+models/modal/
