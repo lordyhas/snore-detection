@@ -34,6 +34,7 @@ spectrograms and classified by a small CNN written in PyTorch.
 │   └── sanity_check.py      # Checks to run before trusting a training
 ├── tests/                   # Tests of the sanity checks
 ├── main.py                  # Entry point: preprocess + train in one command
+├── modal_app.py             # The same pipeline on a Modal cloud GPU
 ├── README.md
 └── requirements.txt
 ```
@@ -89,6 +90,30 @@ python -m src.inference recording.wav --model mobile_tiny
 
 The exported models are in `models/`; see [models/README.md](models/README.md) for
 their interface and how to call them from an Android app.
+
+### Running on Modal
+
+[Modal](https://modal.com) runs the pipeline on a cloud GPU. `modal_app.py` preprocesses
+the data, trains one model, exports it to ONNX if it is a mobile model, and downloads
+the results.
+
+```bash
+pip install modal
+modal setup                                    # once: log in to your Modal account
+
+modal run modal_app.py --upload                # first run: send data/raw, then train
+modal run modal_app.py --model mobile_small    # later runs reuse the uploaded data
+modal run modal_app.py --model audio_cnn --epochs 30 --learning-rate 0.0005
+```
+
+- The dataset and the trained models are kept on a Modal volume named
+  `snore-detection-data`, so the audio files are uploaded only once.
+- The checkpoint and the ONNX file are downloaded to `models/modal/` (not versioned),
+  so a cloud run never overwrites the models in `models/`. Use `--output-dir` to
+  change the folder.
+- The function asks for a T4 GPU, billed by Modal for the seconds used; change
+  `gpu="T4"` in `modal_app.py` for another type.
+- Options left out keep the defaults of `src/train.py`.
 
 ### Sanity checks
 
